@@ -4,11 +4,7 @@ import userMovList from '/client/src/data/userMovList.js';
 import MovieList from './MovieList.jsx';
 import AddMovieBar from './AddMovieBar.jsx';
 import SearchBar from './SearchBar.jsx';
-
-// add watched prop for exMovList
-for (let movie of exMovList) {
-  movie.watched = false;
-}
+import searchMovDetails from '/client/src/lib/parse.js';
 
 // Change to class implementation
 class App extends React.Component {
@@ -17,34 +13,56 @@ class App extends React.Component {
 
     this.state = {
       movies: (userMovList.length) ? userMovList : exMovList,
-      newMovTitle: ''
     };
 
-    this.newMovTitleIns = this.newMovTitleIns.bind(this);
     this.newMovTitleAdd = this.newMovTitleAdd.bind(this);
     this.searchMovie = this.searchMovie.bind(this);
     this.toggleWatched = this.toggleWatched.bind(this);
     this.filterWatched = this.filterWatched.bind(this);
   }
 
-  // New Movie Title Insert
-  newMovTitleIns (title) {
-    this.setState({ newMovTitle: title });
+componentDidMount () {
+  // add properties to each movie
+  for (let movie of exMovList) {
+    searchMovDetails(movie.title.replace(/\s+/g, '+'), (dataObj)=>{
+      for (let resMov of dataObj.results) {
+        if (movie.title === resMov.title) {
+          movie.id = resMov.id;
+          movie.release_date = resMov.release_date;
+          movie.popularity = resMov.popularity;
+          movie.overview = resMov.overview;
+          movie.poster_path = resMov.poster_path;
+          movie.watched = false;
+          this.setState({ movies: exMovList });
+        }
+      }
+    });
   }
+}
 
   // New Movie Title Add
-  newMovTitleAdd () {
+  newMovTitleAdd (newTitle) {
     let alrEx = false;
     for (let movie of userMovList) {
-      if (movie.title.toLowerCase() === this.state.newMovTitle.toLowerCase()) { alrEx = true; }
+      if (movie.title.toLowerCase() === newTitle.toLowerCase()) { alrEx = true; }
     }
-    if (this.state.newMovTitle.length && !alrEx) {
-    let newMov = {
-      title: this.state.newMovTitle,
-      watched: false
-     };
-    userMovList.push(newMov);
-    this.setState({ movies: userMovList });
+    if (newTitle.length && !alrEx) {
+      let newMov = {};
+      searchMovDetails(newTitle.replace(/\s+/g, '+'), (dataObj)=>{
+        for (let resMov of dataObj.results) {
+          if (newTitle.toLowerCase() === resMov.title.toLowerCase()) {
+            newMov.title = resMov.title;
+            newMov.id = resMov.id;
+            newMov.release_date = resMov.release_date;
+            newMov.popularity = resMov.popularity;
+            newMov.overview = resMov.overview;
+            newMov.poster_path = resMov.poster_path;
+            newMov.watched = false;
+            userMovList.push(newMov);
+            this.setState({ movies: userMovList });
+          }
+        }
+      });
     }
   }
 
@@ -98,10 +116,7 @@ class App extends React.Component {
     return (
     <div>
       <h1 id="appHeader">Movie List</h1>
-      <AddMovieBar
-        newMovTitleIns={this.newMovTitleIns}
-        newMovTitleAdd={this.newMovTitleAdd}
-      />
+      <AddMovieBar newMovTitleAdd={this.newMovTitleAdd}/>
       <SearchBar filterWatched ={this.filterWatched} searchMovie={this.searchMovie}/>
       <MovieList movies={this.state.movies} toggleWatched={this.toggleWatched}/>
     </div>

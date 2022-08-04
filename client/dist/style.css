@@ -1,27 +1,47 @@
+ul {
+  margin: auto;
+  max-width: 500px;
+  list-style-type: none;
+}
+
+img {
+  margin: auto;
+  max-height: 200px;
+  max-width: 200px;
+}
+
 #app {
   font-family: "sans-serif, arial";
   margin: auto;
   max-width: 800px;
   display: flex;
   justify-content: center;
-  text-align: center;
 }
 
 #appHeader {
   background-color: whitesmoke;
-  justify-content: center;
+  text-align: center;
 }
 
 .bar {
-  height: 50px;
+  margin: auto;
+  max-height: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .searchButton {
   height: 50px;
 }
 
-#movie {
+.movie {
   border: 1px solid whitesmoke;
   display: flex;
   justify-content: space-between;
+}
+
+#watchedBut {
+  width: 100px;
+  height: 20px;
+  margin-top: 5%;
 }

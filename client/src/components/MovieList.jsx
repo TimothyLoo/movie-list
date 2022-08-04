@@ -11,7 +11,7 @@ var MovieList = (props) => {
   return (
   <div>
     {props.movies.map(movie => (
-    <Movie movie={movie} key={movie.title} toggleWatched={props.toggleWatched}/>
+    <Movie movie={movie} key={movie.title + movie.id} toggleWatched={props.toggleWatched}/>
     ))}
     </div>
   )
