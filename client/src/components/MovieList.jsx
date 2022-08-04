@@ -9,10 +9,13 @@ var MovieList = (props) => {
   }
 
   return (
-  <div>
-    {props.movies.map(movie => (
-    <Movie movie={movie} key={movie.title + movie.id} toggleWatched={props.toggleWatched}/>
-    ))}
+    <div>
+      {props.movies.map(movie => (
+      <Movie
+        movie={movie} key={movie.title + movie.id}
+        toggleWatched={props.toggleWatched}
+      />
+      ))}
     </div>
   )
 }

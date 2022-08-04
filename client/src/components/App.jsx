@@ -60,6 +60,7 @@ componentDidMount () {
             newMov.watched = false;
             userMovList.push(newMov);
             this.setState({ movies: userMovList });
+            break;
           }
         }
       });
@@ -118,7 +119,10 @@ componentDidMount () {
       <h1 id="appHeader">Movie List</h1>
       <AddMovieBar newMovTitleAdd={this.newMovTitleAdd}/>
       <SearchBar filterWatched ={this.filterWatched} searchMovie={this.searchMovie}/>
-      <MovieList movies={this.state.movies} toggleWatched={this.toggleWatched}/>
+      <MovieList
+        movies={this.state.movies}
+        toggleWatched={this.toggleWatched}
+      />
     </div>
     );
   }

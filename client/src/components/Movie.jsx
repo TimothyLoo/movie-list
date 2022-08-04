@@ -14,7 +14,7 @@ var Movie = (props) => {
     <div className="movie">
       <img src={'https://image.tmdb.org/t/p/original/' + props.movie.poster_path} />
       <ul>
-        <h3>{props.movie.title}</h3>
+        <h3 >{props.movie.title}</h3>
         <li><b>Release Date:</b> <em>{props.movie.release_date}</em></li>
         <li><b>Popularity:</b> <em>{props.movie.popularity}</em></li>
         <li><b>Overview:</b> <em>{props.movie.overview}</em></li>
