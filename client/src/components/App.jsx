@@ -34,7 +34,11 @@ class App extends React.Component {
 
   // New Movie Title Add
   newMovTitleAdd () {
-    if (this.state.newMovTitle.length) {
+    let alrEx = false;
+    for (let movie of userMovList) {
+      if (movie.title.toLowerCase() === this.state.newMovTitle.toLowerCase()) { alrEx = true; }
+    }
+    if (this.state.newMovTitle.length && !alrEx) {
     let newMov = {
       title: this.state.newMovTitle,
       watched: false
