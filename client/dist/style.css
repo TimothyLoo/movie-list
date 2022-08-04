@@ -1,3 +1,27 @@
-body {
-  font-family: sans-serif, arial;
+#app {
+  font-family: "sans-serif, arial";
+  margin: auto;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+#appHeader {
+  background-color: whitesmoke;
+  justify-content: center;
+}
+
+.bar {
+  height: 50px;
+}
+
+.searchButton {
+  height: 50px;
+}
+
+#movie {
+  border: 1px solid whitesmoke;
+  display: flex;
+  justify-content: space-between;
 }
