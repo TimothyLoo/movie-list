@@ -34,6 +34,7 @@ componentDidMount () {
           movie.poster_path = resMov.poster_path;
           movie.watched = false;
           this.setState({ movies: exMovList });
+          break;
         }
       }
     });
