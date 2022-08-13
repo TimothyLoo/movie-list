@@ -14,7 +14,10 @@ var Movie = (props) => {
     <div className="movie">
       <div className="innerMovie">
         <h3 >{props.movie.title}</h3>
-        <button id="watchedBut" style={sty} onClick={()=>props.toggleWatched(props.movie)}>{watchedText}</button>
+        <div className="movButtons">
+          <button className="watchedBut" style={sty} onClick={()=>props.toggleWatched(props.movie)}>{watchedText}</button>
+          <button className="deleteBut" onClick={()=>props.deleteMov(props.movie)}>Delete</button>
+        </div>
       </div>
       <div className="innerMovie">
         <img src={'https://image.tmdb.org/t/p/original/' + props.movie.poster_path} />

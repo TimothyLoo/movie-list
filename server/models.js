@@ -18,5 +18,11 @@ module.exports = {
     db.query(`UPDATE movies SET watched = ? WHERE id = ?`, [watched, id], (err, results)=>{
       callback(err, results);
     });
+  },
+
+  deleteMovie: (id, callback)=>{
+    db.query(`DELETE FROM movies WHERE id = ?`, [id], (err, results)=>{
+      callback(err, results);
+    });
   }
 }

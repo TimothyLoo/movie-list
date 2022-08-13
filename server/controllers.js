@@ -17,15 +17,23 @@ module.exports = {
     const {id, title, overview, release_date, popularity, poster_path} = req.body;
     const data = [id, title, overview, release_date, popularity, poster_path];
     models.addMovie(data, (err, data)=>{
-      if (err) { throw err; }
-      else { res.end('Successful Post'); }
+      if (err) { res.err(err); }
+      else { res.send('Successful Post'); }
     });
   },
 
   updateMovie: (req, res)=>{
     models.updateMovie(req.body.watched, req.body.id, (err, data)=>{
       if (err) { throw err; }
-      else { res.end ('Update Successful'); }
+      else { res.send ('Update Successful'); }
+    });
+  },
+
+  deleteMovie: (req, res)=>{
+    console.log(req.body)
+    models.deleteMovie(req.body.id, (err, data)=>{
+      if (err) { throw err; }
+      else { res.send ('Update Successful'); }
     });
   }
 }

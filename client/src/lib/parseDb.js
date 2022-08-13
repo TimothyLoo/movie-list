@@ -22,6 +22,13 @@ const parseDb = {
       .then((response)=>{
         callback(response);
       })
+  },
+
+  deleteMovDb: (movie, callback)=>{
+    axios.delete(server, {data: movie})
+      .then((response)=>{
+        callback(response);
+      })
   }
 }
 

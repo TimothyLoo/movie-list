@@ -21,6 +21,7 @@ class App extends React.Component {
     this.searchMovie = this.searchMovie.bind(this);
     this.toggleWatched = this.toggleWatched.bind(this);
     this.filterWatched = this.filterWatched.bind(this);
+    this.deleteMov = this.deleteMov.bind(this);
   }
 
 componentDidMount () {
@@ -60,7 +61,7 @@ componentDidMount () {
           break;
         }
       }
-      for (let movies of userMovList) { if (newMovie.id === movies.id) { return; } }
+      //for (let movies of userMovList) { if (newMovie.id === movies.id) { return; } }
       parseDb.addMovDb(newMovie, (result)=>{
         userMovList.push(newMovie);
         parseDb.searchMovDb((allMov)=>{
@@ -152,6 +153,16 @@ componentDidMount () {
     });
   }
 
+// Changes the list of movies to watched or not watched
+deleteMov (movie) {
+  // if userMovList is empty, loop through exMovList
+  parseDb.deleteMovDb(movie, ()=>{
+    parseDb.searchMovDb((allMov)=>{
+      this.setState({ movies: allMov });
+    });
+  });
+}
+
   render () {
     return (
     <div>
@@ -161,6 +172,7 @@ componentDidMount () {
       <MovieList
         movies={this.state.movies}
         toggleWatched={this.toggleWatched}
+        deleteMov={this.deleteMov}
       />
     </div>
     );

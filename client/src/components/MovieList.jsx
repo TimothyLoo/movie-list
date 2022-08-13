@@ -14,6 +14,7 @@ var MovieList = (props) => {
       <Movie
         movie={movie} key={movie.title + movie.id}
         toggleWatched={props.toggleWatched}
+        deleteMov={props.deleteMov}
       />
       ))}
     </div>

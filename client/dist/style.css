@@ -45,8 +45,20 @@ img {
   justify-content: space-between;
 }
 
-#watchedBut {
+.movButtons {
+  display: flex;
+  flex-direction: column;
   width: 100px;
   height: 20px;
-  margin-top: 5%;
+  margin-top: 1%;
+}
+
+.watchedBut {
+  width: 100px;
+  height: 20px;
+  margin-top: 1%;
+}
+
+.deleteBut {
+  background-color: lightcoral;
 }
