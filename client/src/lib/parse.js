@@ -7,7 +7,7 @@ var searchMovDetails = function(keyword, callback) {
   .then(res => res.json())
   .then(
     (result) => {
-      // console.log(result);
+      console.log(result);
       callback(result);
     },
     (error) => {

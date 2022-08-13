@@ -24,7 +24,7 @@ class App extends React.Component {
   }
 
 componentDidMount () {
-  // add properties to each movie
+  //add properties to each movie
   // for (let movie of exMovList) {
   //   searchMovDetails(movie.title.replace(/\s+/g, '+'), (dataObj)=>{
   //     for (let resMov of dataObj.results) {
@@ -50,6 +50,24 @@ componentDidMount () {
 
   // New Movie Title Add
   newMovTitleAdd (newTitle) {
+    if (!newTitle.length) { return; }
+
+    searchMovDetails(newTitle.toLowerCase(), (dataObj)=>{
+      let newMovie;
+      for (let resMov of dataObj.results) {
+        if (resMov.title.toLowerCase() === newTitle.toLowerCase()) {
+          newMovie = resMov;
+          break;
+        }
+      }
+      for (let movies of userMovList) { if (newMovie.id === movies.id) { return; } }
+      parseDb.addMovDb(newMovie, (result)=>{
+        userMovList.push(newMovie);
+        parseDb.searchMovDb((allMov)=>{
+          this.setState({ movies: allMov });
+        });
+      });
+    });
     // let alrEx = false;
     // for (let movie of userMovList) {
     //   if (movie.title.toLowerCase() === newTitle.toLowerCase()) { alrEx = true; }
@@ -73,25 +91,34 @@ componentDidMount () {
     //     }
     //   });
     // }
-    parseDb.addMovDb(newTitle,()=>{
-      console.log(result);
-    });
+    // parseDb.addMovDb(newTitle,(result)=>{
+    //   parseDb.searchMovDb((allMov)=>{
+    //     this.setState( {movies: allMov} );
+    //   });
+    // });
   }
 
   toggleWatched (movie) {
     // loop through movies, update watched status
-    for (let userMov of userMovList) {
-      if (movie.title === userMov.title) {
-        userMov.watched = !userMov.watched;
-      }
-    }
-    for (let exMov of exMovList) {
-      if (movie.title === exMov.title) {
-        exMov.watched = !exMov.watched;
-      }
-    }
-    // set state for mov list
-    this.setState({ movies: this.state.movies });
+    movie.watched = !movie.watched;
+    parseDb.updateMovDb(movie.watched, movie.id, (result)=>{
+      parseDb.searchMovDb((allMov)=>{
+        console.log(allMov);
+        this.setState({ movies: allMov });
+    });
+  });
+    // for (let userMov of userMovList) {
+    //   if (movie.title === userMov.title) {
+    //     userMov.watched = !userMov.watched;
+    //   }
+    // }
+    // for (let exMov of exMovList) {
+    //   if (movie.title === exMov.title) {
+    //     exMov.watched = !exMov.watched;
+    //   }
+    // }
+    // // set state for mov list
+    // this.setState({ movies: this.state.movies });
   }
 
   // Takes the query & returns list of movies that contain query text
@@ -111,17 +138,18 @@ componentDidMount () {
 
     // Changes the list of movies to watched or not watched
     filterWatched (didWatch) {
-     // create new array
-    let filtMovList = [];
-    // if userMovList is empty, loop through exMovList
-    let selMovList = (userMovList.length) ? userMovList : exMovList;
-    // loop through movie list
-    for (let movie of selMovList) {
-      // if movie watched is true, push to filtLIst
-      if (movie.watched === didWatch) { filtMovList.push(movie) };
-    }
-    // set movies state to new array
-    this.setState({ movies: filtMovList });
+      // if userMovList is empty, loop through exMovList
+      parseDb.searchMovDb((movList)=>{
+       // create new array
+      let filtMovList = [];
+      // loop through movie list
+      for (let movie of movList) {
+        // if movie watched is true, push to filtLIst
+        if (movie.watched === didWatch) { filtMovList.push(movie) };
+      }
+      // set movies state to new array
+      this.setState({ movies: filtMovList });
+    });
   }
 
   render () {

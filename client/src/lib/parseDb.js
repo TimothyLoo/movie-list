@@ -9,12 +9,20 @@ const parseDb = {
       })
   },
 
-  addMovDb: function(title, callback) {
-    axios.post(server, {title: title})
+  addMovDb: function(movie, callback) {
+    console.log('parseDB', movie)
+    axios.post(server, movie)
       .then((response)=>{
-        console.log(response);
+        callback(response);
       })
   },
+
+  updateMovDb: (watched, id, callback)=>{
+    axios.put(server, {watched: watched, id: id})
+      .then((response)=>{
+        callback(response);
+      })
+  }
 }
 
 export default parseDb;

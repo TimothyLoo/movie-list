@@ -37,6 +37,11 @@ img {
 .movie {
   border: 1px solid whitesmoke;
   display: flex;
+  flex-direction: column;
+}
+
+.innerMovie {
+  display: flex;
   justify-content: space-between;
 }
 

@@ -12,14 +12,18 @@ var Movie = (props) => {
 
   return (
     <div className="movie">
-      <img src={'https://image.tmdb.org/t/p/original/' + props.movie.poster_path} />
-      <ul>
+      <div className="innerMovie">
         <h3 >{props.movie.title}</h3>
-        <li><b>Release Date:</b> <em>{props.movie.release_date}</em></li>
-        <li><b>Popularity:</b> <em>{props.movie.popularity}</em></li>
-        <li><b>Overview:</b> <em>{props.movie.overview}</em></li>
-      </ul>
-      <button id="watchedBut" style={sty} onClick={()=>props.toggleWatched(props.movie)}>{watchedText}</button>
+        <button id="watchedBut" style={sty} onClick={()=>props.toggleWatched(props.movie)}>{watchedText}</button>
+      </div>
+      <div className="innerMovie">
+        <img src={'https://image.tmdb.org/t/p/original/' + props.movie.poster_path} />
+        <ul>
+          <li><b>Release Date:</b> <em>{props.movie.release_date}</em></li>
+          <li><b>Popularity:</b> <em>{props.movie.popularity}</em></li>
+          <li><b>Overview:</b> <em>{props.movie.overview}</em></li>
+        </ul>
+      </div>
     </div>
   )
 }

@@ -16,3 +16,5 @@ app.listen(PORT, () => {
 app.get('/movielist', controllers.get);
 
 app.post('/movielist', controllers.addMovie);
+
+app.put('/movielist', controllers.updateMovie);
