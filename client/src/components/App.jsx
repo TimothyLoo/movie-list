@@ -1,10 +1,12 @@
 import React from 'react';
+import axios from 'axios';
 import exMovList from '/client/src/data/exMovList.js';
 import userMovList from '/client/src/data/userMovList.js';
 import MovieList from './MovieList.jsx';
 import AddMovieBar from './AddMovieBar.jsx';
 import SearchBar from './SearchBar.jsx';
 import searchMovDetails from '/client/src/lib/parse.js';
+import parseDb from '/client/src/lib/parseDb.js';
 
 // Change to class implementation
 class App extends React.Component {
@@ -23,49 +25,57 @@ class App extends React.Component {
 
 componentDidMount () {
   // add properties to each movie
-  for (let movie of exMovList) {
-    searchMovDetails(movie.title.replace(/\s+/g, '+'), (dataObj)=>{
-      for (let resMov of dataObj.results) {
-        if (movie.title === resMov.title) {
-          movie.id = resMov.id;
-          movie.release_date = resMov.release_date;
-          movie.popularity = resMov.popularity;
-          movie.overview = resMov.overview;
-          movie.poster_path = resMov.poster_path;
-          movie.watched = false;
-          this.setState({ movies: exMovList });
-          break;
-        }
-      }
-    });
-  }
+  // for (let movie of exMovList) {
+  //   searchMovDetails(movie.title.replace(/\s+/g, '+'), (dataObj)=>{
+  //     for (let resMov of dataObj.results) {
+  //       if (movie.title === resMov.title) {
+  //         movie.id = resMov.id;
+  //         movie.release_date = resMov.release_date;
+  //         movie.popularity = resMov.popularity;
+  //         movie.overview = resMov.overview;
+  //         movie.poster_path = resMov.poster_path;
+  //         movie.watched = false;
+  //         this.setState({ movies: exMovList });
+  //         break;
+  //       }
+  //     }
+  //   });
+  // }
+  parseDb.searchMovDb((moviesArr)=>{
+    for (let mov of moviesArr) { userMovList.push(mov); }
+    this.setState({ movies: userMovList });
+  });
+
 }
 
   // New Movie Title Add
   newMovTitleAdd (newTitle) {
-    let alrEx = false;
-    for (let movie of userMovList) {
-      if (movie.title.toLowerCase() === newTitle.toLowerCase()) { alrEx = true; }
-    }
-    if (newTitle.length && !alrEx) {
-      let newMov = {};
-      searchMovDetails(newTitle.replace(/\s+/g, '+'), (dataObj)=>{
-        for (let resMov of dataObj.results) {
-          if (newTitle.toLowerCase() === resMov.title.toLowerCase()) {
-            newMov.title = resMov.title;
-            newMov.id = resMov.id;
-            newMov.release_date = resMov.release_date;
-            newMov.popularity = resMov.popularity;
-            newMov.overview = resMov.overview;
-            newMov.poster_path = resMov.poster_path;
-            newMov.watched = false;
-            userMovList.push(newMov);
-            this.setState({ movies: userMovList });
-            break;
-          }
-        }
-      });
-    }
+    // let alrEx = false;
+    // for (let movie of userMovList) {
+    //   if (movie.title.toLowerCase() === newTitle.toLowerCase()) { alrEx = true; }
+    // }
+    // if (newTitle.length && !alrEx) {
+    //   let newMov = {};
+    //   searchMovDetails(newTitle.replace(/\s+/g, '+'), (dataObj)=>{
+    //     for (let resMov of dataObj.results) {
+    //       if (newTitle.toLowerCase() === resMov.title.toLowerCase()) {
+    //         newMov.title = resMov.title;
+    //         newMov.id = resMov.id;
+    //         newMov.release_date = resMov.release_date;
+    //         newMov.popularity = resMov.popularity;
+    //         newMov.overview = resMov.overview;
+    //         newMov.poster_path = resMov.poster_path;
+    //         newMov.watched = false;
+    //         userMovList.push(newMov);
+    //         this.setState({ movies: userMovList });
+    //         break;
+    //       }
+    //     }
+    //   });
+    // }
+    parseDb.addMovDb(newTitle,()=>{
+      console.log(result);
+    });
   }
 
   toggleWatched (movie) {

@@ -4,6 +4,7 @@ const PORT = 3000 || process.env.PORT;
 // Import CONTROLLERS
 const controllers = require('./controllers.js');
 
+app.use(express.json());
 app.use(express.static('client/dist'));
 
 app.listen(PORT, () => {
@@ -12,8 +13,6 @@ app.listen(PORT, () => {
 
 
 // ROUTES
-app.get('/movielist', controllers.getAll);
+app.get('/movielist', controllers.get);
 
-app.post('/movielist', (req, res)=>{
-  res.send('Successful POST request');
-});
+app.post('/movielist', controllers.addMovie);
